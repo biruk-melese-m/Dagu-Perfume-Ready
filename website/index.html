@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dagu Perfume — Luxury Fragrance Boutique</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description"
+    content="Dagu Perfume — 200+ luxury fragrances in Addis Ababa. Designer originals, premium clones & rare Arabic exclusives at honest prices. Visit us at Bora Kids Mall, Bole.">
+  <meta property="og:title" content="Dagu Perfume — Luxury Fragrance Boutique">
+  <meta property="og:description"
+    content="200+ fragrances — Designer originals, premium clones & rare Arabic exclusives. Located at Bora Kids Mall, Bole, Addis Ababa.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4">
+  <style>
+    /* Force fast cursor tracking */
+    #cur,
+    #cur2 {
+      transition: transform 0.05s linear, width 0.15s, height 0.15s, opacity 0.2s !important;
+      will-change: transform;
+    }
+
+    /* Back to Top button on the left */
+    .back-to-top-btn {
+      position: fixed;
+      left: 17px;
+      bottom: 100px;
+      z-index: 9999;
+      width: 44px;
+      height: 44px;
+      background: rgba(110, 19, 36, 0.3);
+      border: 1px solid rgba(200, 160, 80, 0.4);
+      border-radius: 50%;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+      opacity: 0.6;
+    }
+
+    .back-to-top-btn:hover {
+      opacity: 1;
+      transform: translateY(-5px);
+      background: rgba(110, 19, 36, 0.5);
+    }
+
+    /* Ensure other products button matches style */
+    #btn-other {
+      border-color: rgba(60, 140, 160, 0.4);
+    }
+
+    #btn-other .sel-emoji {
+      filter: drop-shadow(0 0 8px rgba(60, 140, 160, 0.4));
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Custom cursor removed -->
+
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="pre-logo-wrap">
+      <svg class="pre-logo-img" viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg"
+        style="width:220px;height:auto;">
+        <rect x="22" y="4" width="36" height="7" rx="2" fill="white" />
+        <circle cx="40" cy="7.5" r="2" fill="#6E1324" />
+        <rect x="30" y="11" width="20" height="8" rx="1" fill="white" />
+        <rect x="18" y="19" width="13" height="86" rx="0" fill="white" />
+        <path d="M31,19 L50,19 Q100,19 100,62 Q100,105 50,105 L31,105 L31,92 L50,92 Q84,92 84,62 Q84,32 50,32 L31,32 Z"
+          fill="white" />
+        <path d="M46,40 Q80,46 76,66 Q72,84 46,90 Q66,76 63,64 Q60,52 46,40 Z" fill="#6E1324" />
+        <text x="108" y="103" font-family="Georgia,'Times New Roman',Times,serif" font-size="88" font-weight="normal"
+          fill="white" letter-spacing="0">AGU</text>
+      </svg>
+    </div>
+    <div class="pre-bar-wrap">
+      <div class="pre-bar"></div>
+    </div>
+    <p class="pre-text">Loading Collection</p>
+  </div>
+
+  <!-- HEADER -->
+  <header id="mainHeader">
+    <div class="header-inner">
+      <svg class="logo-svg" viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" aria-label="Dagu Perfume">
+        <rect x="22" y="4" width="36" height="7" rx="2" fill="white" />
+        <circle cx="40" cy="7.5" r="2" fill="#6E1324" />
+        <rect x="30" y="11" width="20" height="8" rx="1" fill="white" />
+        <rect x="18" y="19" width="13" height="86" rx="0" fill="white" />
+        <path d="M31,19 L50,19 Q100,19 100,62 Q100,105 50,105 L31,105 L31,92 L50,92 Q84,92 84,62 Q84,32 50,32 L31,32 Z"
+          fill="white" />
+        <path d="M46,40 Q80,46 76,66 Q72,84 46,90 Q66,76 63,64 Q60,52 46,40 Z" fill="#6E1324" />
+        <text x="108" y="103" font-family="Georgia,'Times New Roman',Times,serif" font-size="88" font-weight="normal"
+          fill="white" letter-spacing="0">AGU</text>
+      </svg>
+      <!-- Nav links removed to prioritize sidebar as requested -->
+      <div class="header-right">
+        <div class="search-wrap">
+          <input id="searchInput" type="text" placeholder="Search perfume…" oninput="doSearch()">
+          <button class="search-btn" onclick="document.getElementById('searchInput').focus()"
+            style="cursor:none;">⌕</button>
+        </div>
+        <button class="cart-btn" onclick="openFavs()" id="favBtn" style="margin-right: 0;" title="Favorites">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+            </path>
+          </svg>
+          <span class="cart-count" id="favCount" style="background:var(--gold);">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO 1: THE SLOGAN (Upper Section) -->
+  <section id="hero" class="hero-minimal">
+    <div class="hero-content-center">
+      <p class="hero-eyebrow">Smell Good...</p>
+      <h1 class="hero-h1">Dagu Perfume</h1>
+      <p class="hero-sub italic">Luxury Scents — Honest Prices</p>
+    </div>
+    <div class="hero-scroll" onclick="scrollToDiscovery()"><span>Scroll to Discover</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- HERO 2: THE REVEAL (Interactive Bottle + Stats) -->
+  <section id="hero-reveal" class="reveal section-reveal">
+    <div class="hero-canvas-wrap">
+      <canvas id="heroCanvas"></canvas>
+    </div>
+    <div class="reveal-container">
+      <div class="bottle-reveal-anchor">
+        <!-- Interactive Canvas will draw here via script positioning -->
+      </div>
+    </div>
+
+    <div class="hero-stats-bar">
+      <div class="hsb-inner">
+        <div class="hsb-item">
+          <div class="hsb-n">502</div>
+          <div class="hsb-l">FRAGRANCES</div>
+        </div>
+        <div class="hsb-item">
+          <div class="hsb-n">15+</div>
+          <div class="hsb-l">BRANDS</div>
+        </div>
+        <div class="hsb-item">
+          <div class="hsb-n">100%</div>
+          <div class="hsb-l">AUTHENTIC</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY SELECTOR (Visual Filters) -->
+  <div id="categorySelectors">
+    <div class="selector-wrap reveal">
+      <div class="sel-btn" onclick="toggleCategory('men', this)" id="btn-kings">
+        <div class="sel-emoji">👑</div>
+        <div class="sel-label">Kings</div>
+      </div>
+      <div class="sel-btn" onclick="toggleCategory('women', this)" id="btn-queens">
+        <div class="sel-emoji">🌹</div>
+        <div class="sel-label">Queens</div>
+      </div>
+      <div class="sel-btn" onclick="toggleCategory('unisex', this)" id="btn-unisex">
+        <div class="sel-emoji">⚖️</div>
+        <div class="sel-label">Unisex</div>
+      </div>
+      <div class="sel-btn" onclick="toggleScent('latest', this)" id="btn-latest">
+        <div class="sel-emoji">🔥</div>
+        <div class="sel-label">Latest</div>
+      </div>
+      <div class="sel-btn" onclick="toggleScent('favorites', this)" id="btn-favorites">
+        <div class="sel-emoji">💎</div>
+        <div class="sel-label">Top Sellers</div>
+      </div>
+      <div class="sel-btn" onclick="toggleScent('exclusive', this)" id="btn-exclusive">
+        <div class="sel-emoji">🏺</div>
+        <div class="sel-label">Doj | Shaiks</div>
+      </div>
+      <div class="sel-btn" onclick="toggleScent('other', this)" id="btn-other">
+        <div class="sel-emoji">🧴</div>
+        <div class="sel-label">Essentials</div>
+      </div>
+    </div>
+    <button id="secResetBtn" onclick="resetCategories()"><span>↺</span> Back to Complete Collection</button>
+  </div>
+
+
+  <!-- Hidden element kept for JS compatibility -->
+  <span id="filterActiveCount" style="display:none">0</span>
+
+
+  <!-- ADVANCED FILTER PANEL -->
+  <div id="filterBackdrop" onclick="closeFilterPanel()"></div>
+  <div id="filterPanel">
+    <div class="fp-header">
+      <div class="fp-title">Advanced Filters</div>
+      <button class="fp-close" onclick="closeFilterPanel()">✕</button>
+    </div>
+    <div class="fp-body">
+      <div class="fp-group">
+        <div class="fp-options">
+          <label class="fp-opt"><input type="checkbox" data-group="category" value="men"
+              onchange="syncFilters()"><span>👑 Kings</span></label>
+          <label class="fp-opt"><input type="checkbox" data-group="category" value="women"
+              onchange="syncFilters()"><span>🌹 Queens</span></label>
+          <label class="fp-opt"><input type="checkbox" data-group="category" value="unisex"
+              onchange="syncFilters()"><span>⚖️ Unisex</span></label>
+        </div>
+      </div>
+      <div class="fp-group">
+        <div class="fp-options">
+          <label class="fp-opt"><input type="checkbox" data-group="type" value="designer"
+              onchange="syncFilters()"><span>💎 Originals</span></label>
+          <label class="fp-opt"><input type="checkbox" data-group="type" value="clone" onchange="syncFilters()"><span>🔄
+              Dupes</span></label>
+        </div>
+      </div>
+      <div class="fp-group">
+        <div class="fp-options">
+          <label class="fp-opt"><input type="checkbox" data-group="price" value="above10k"
+              onchange="syncFilters()"><span>Above 10k Br</span></label>
+          <label class="fp-opt"><input type="checkbox" data-group="price" value="around5k"
+              onchange="syncFilters()"><span>Around 5k Br</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="fp-footer">
+      <button class="fp-clear-btn" onclick="clearAllFilters()">Clear All</button>
+      <button class="fp-apply-btn" onclick="applyFilters()">Apply Filters</button>
+    </div>
+  </div>
+
+
+
+  <!-- CONTENT -->
+  <div class="content" id="content"></div>
+  </div>
+
+  <!-- DEDICATED DETAIL PAGE (Static 2-Column Grid + Horizontal Scroll Suggestions) -->
+  <div id="detailPanel">
+    <!-- Sticky topbar -->
+    <div class="dp-topbar">
+      <button class="dp-back-btn" onclick="closePanel()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="dp-topbar-title" id="dpTopbarTitle">—</div>
+    </div>
+
+    <!-- Scrollable Page Wrapper -->
+    <div class="dp-page-scroll">
+      <!-- 2-Column Main Grid -->
+      <div class="dp-main-grid">
+        <!-- Left: Static Perfume Bottle Showcase -->
+        <div class="dp-grid-left">
+          <div class="dp-image-container" id="dpImg">
+            <div class="dp-img-bg" id="dpImgBg"></div>
+            <div class="dp-bottle-frame" id="dpBottle"></div>
+          </div>
+        </div>
+
+        <!-- Right: Structured Product Details -->
+        <div class="dp-grid-right">
+          <div class="dp-no" id="dpNo">—</div>
+          <div class="dp-brand" id="dpBrand">—</div>
+          <div class="dp-name" id="dpName">—</div>
+          <div class="dp-badges" id="dpBadges"></div>
+          
+          <div class="dp-price-box">
+            <div class="dp-price-label">Price</div>
+            <div id="dpPrice" class="dp-price-val">—</div>
+          </div>
+
+          <div class="dp-divider"></div>
+          <div class="dp-label">Scent Profile</div>
+          <div class="dp-vibe" id="dpVibe">—</div>
+          <div class="dp-divider"></div>
+
+          <div class="dp-actions">
+            <button class="dp-add-cart-btn" id="dpAddCartBtn" onclick="addToCartFromPanel()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                <path d="M3 6h18" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              Buy Now — Instant Checkout
+            </button>
+            <div class="dp-call-row">
+              <a class="dp-call" href="tel:0993337235">📞 Call 0993 33 7235</a>
+              <a class="dp-call" href="tel:0949064149">📱 Call 0949 06 4149</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Suggestions (Horizontal Scrollable Row of Medium Cards) -->
+      <div class="dp-suggestions-section">
+        <div class="dp-sugg-header">
+          <div>
+            <div class="dp-sugg-title">You May Also Like</div>
+            <div class="dp-sugg-heading">Similar Fragrances</div>
+          </div>
+          <div class="dp-sugg-scroll-hint">Scroll horizontally →</div>
+        </div>
+        <div class="dp-sugg-horizontal-row" id="dpSuggestions"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCENT QUIZ MODAL -->
+  <div id="quizBackdrop" onclick="closeQuiz()"></div>
+  <div id="quizModal">
+    <div class="quiz-header">
+      <div class="quiz-title">Find Your Signature Scent</div>
+      <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="quiz-body" id="quizBody">
+      <!-- Quiz steps will be injected here -->
+    </div>
+    <div class="quiz-footer" id="quizFooter">
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar" id="quizProgress"></div>
+      </div>
+      <div class="quiz-btns">
+        <button class="quiz-back-btn" id="quizBackBtn" onclick="prevQuizStep()" style="display:none">← Back</button>
+        <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuizStep()" disabled>Next Question</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ RESULT PANEL (Side Bar) -->
+  <div id="qrpBackdrop" onclick="closeQuizResultPanel()"
+    style="position:fixed; inset:0; z-index:79000; background:rgba(14,6,8,.5); backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .4s;">
+  </div>
+  <div id="quizResultPanel">
+    <div class="qrp-header">
+      <div class="qrp-title">Your Curated Collection</div>
+      <button class="qrp-close" onclick="closeQuizResultPanel()">✕</button>
+    </div>
+    <div class="qrp-body">
+      <div class="qrp-slider" id="qrpSlider">
+        <!-- Slides will be injected here -->
+      </div>
+      <div class="qrp-controls">
+        <button class="qrp-btn" id="qrpPrev" onclick="moveQuizSlider(-1)">←</button>
+        <button class="qrp-btn" id="qrpNext" onclick="moveQuizSlider(1)">→</button>
+      </div>
+    </div>
+    <div class="qrp-footer">
+      <button class="qrp-view-detail" id="qrpViewDetailBtn">View Detail</button>
+      <button class="qrp-view-all" id="qrpApplyBtn">Explore All Recommendations →</button>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-cta-section reveal">
+    <div class="map-cta-inner">
+      <div class="map-cta-left">
+        <div class="map-cta-tag">Come Visit</div>
+        <div class="map-cta-title">Find Us in Bole</div>
+        <div class="map-cta-addr">Bora Kids Mall · Ground Floor G-02<br>Bole, Addis Ababa</div>
+        <div class="map-cta-hours"><span class="map-cta-hours-dot"></span>Mon – Sat &nbsp;·&nbsp; 9:00 AM – 8:00 PM
+        </div>
+      </div>
+      <a class="map-cta-btn" href="https://www.google.com/maps/dir/?api=1&destination=Bora+Kids+Mall+Bole+Addis+Ababa"
+        target="_blank">
+        <span class="map-cta-btn-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+            <circle cx="12" cy="9" r="2.5" />
+          </svg>
+        </span>
+        <span class="map-cta-btn-text">
+          <span class="map-cta-btn-label">Open in Google Maps</span>
+          <span class="map-cta-btn-sub">Get directions →</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FAV PANEL -->
+  <div id="favBackdrop" onclick="closeFavs()"></div>
+  <div id="favPanel" class="cart-panel">
+    <div class="cart-header">
+      <div class="cart-title">Your Favorites <span class="cart-cnt" id="favCountDisplay">(0)</span></div>
+      <button class="cart-close" onclick="closeFavs()">✕</button>
+    </div>
+    <div class="cart-body" id="favBody">
+      <div class="cart-empty">No favorites yet. Tap the heart on products you love!</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="footer-social-section">
+        <div class="f-head">Find Us Online &amp; Contact</div>
+        <div class="f-social-grid">
+          <a class="soc-card soc-card-tg" href="https://t.me/dagu_perfume" target="_blank">
+            <span class="soc-ico">
+              <!-- Telegram SVG Logo -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.61l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.268.949z" />
+              </svg>
+            </span>
+            <span class="soc-val">@dagu_perfume</span>
+          </a>
+          <a class="soc-card soc-card-tt" href="https://www.tiktok.com/@dagu_perfume" target="_blank">
+            <span class="soc-ico">
+              <!-- TikTok SVG Logo -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.71a4.85 4.85 0 0 1-1.01-.02z" />
+              </svg>
+            </span>
+            <span class="soc-val">@dagu_perfume</span>
+          </a>
+          <a class="soc-card soc-card-ph" href="tel:0993337235">
+            <span class="soc-ico">📞</span>
+            <span class="soc-val">0993 33 7235</span>
+          </a>
+          <a class="soc-card soc-card-ph" href="tel:0949064149">
+            <span class="soc-ico">📱</span>
+            <span class="soc-val">0949 06 4149</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Dagu Perfume · Addis Ababa</div>
+    </div>
+  </footer>
+
+  <!-- Instant Buy System Active: Cart Panel Removed -->
+
+  <!-- CHECKOUT MODAL BACKDROP -->
+  <div id="checkoutBackdrop" onclick="closeCheckout()"></div>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkoutModal">
+    <div class="co-header">
+      <div class="co-title">Complete Your Order</div>
+      <button class="co-close" onclick="closeCheckout()">✕</button>
+    </div>
+
+    <!-- Step 0: Process Overview -->
+    <div class="co-step" id="coStep0">
+      <div class="co-step-label" style="text-align:center; font-size:10px; color:rgba(245,237,224,.9); letter-spacing:0.3em; margin-bottom:24px;">🛒 Simple Order Process</div>
+      <div class="co-info-cards" style="display:flex; flex-direction:column; gap:12px; margin-bottom:30px;">
+        <div style="display:flex; gap:16px; background:rgba(200,160,80,.05); border:1px solid rgba(200,160,80,.15); padding:16px; border-radius:14px; align-items:center;">
+          <div style="font-size:28px; line-height:1; opacity:0.8;">📝</div>
+          <div style="font-size:15px; color:rgba(245,237,224,.9); line-height:1.5;"><strong>Fill Details</strong><br><span style="color:rgba(245,237,224,.6); font-size:13px;">Provide your name, phone, and pick your neighborhood.</span></div>
+        </div>
+        <div style="display:flex; gap:16px; background:rgba(110,19,36,.1); border:1px solid rgba(110,19,36,.25); padding:16px; border-radius:14px; align-items:center;">
+          <div style="font-size:28px; line-height:1; opacity:0.8;">📱</div>
+          <div style="font-size:15px; color:rgba(245,237,224,.9); line-height:1.5;"><strong>Quick Pay</strong><br><span style="color:rgba(245,237,224,.6); font-size:13px;">Send payment securely via your banking app (Telebirr/CBE). Or pay on arrival!</span></div>
+        </div>
+        <div style="display:flex; gap:16px; background:rgba(200,160,80,.05); border:1px solid rgba(200,160,80,.15); padding:16px; border-radius:14px; align-items:center;">
+          <div style="font-size:28px; line-height:1; opacity:0.8;">📸</div>
+          <div style="font-size:15px; color:rgba(245,237,224,.9); line-height:1.5;"><strong>Verify</strong><br><span style="color:rgba(245,237,224,.6); font-size:13px;">Paste your transaction ID and our system automatically finds it!</span></div>
+        </div>
+      </div>
+      <button class="co-submit-btn" onclick="startOrderProcess()" style="width:100%; margin-top:10px; font-size:15px; font-weight:500; box-shadow:none; border:none; background:rgba(110,19,36,.5); color:rgba(245,237,224,.8); padding: 16px; border-radius:999px;">Got It, Let's Go</button>
+    </div>
+
+    <!-- Step 1: Details -->
+    <div class="co-step" id="coStep1">
+      <div class="co-step-label">Step 1 of 2 — Your Details</div>
+      <div class="co-order-summary" id="coSummary"></div>
+      <div class="co-total-row" id="coTotal"></div>
+      <div class="co-divider"></div>
+
+      <div class="co-field">
+        <label class="co-label">Full Name</label>
+        <input class="co-input" id="coName" type="text" placeholder="e.g. Abebe Kebede">
+      </div>
+      <div class="co-field">
+        <label class="co-label">Phone Number</label>
+        <input class="co-input" id="coPhone" type="tel" placeholder="e.g. 0911 23 4567">
+      </div>
+      <div class="co-field">
+        <label class="co-label">Your Neighborhood (Sefer)</label>
+        <div class="co-loc-wrap">
+          <input class="co-input" id="coSefer" list="seferList" placeholder="Start typing your neighborhood..."
+            oninput="updateSeferMatch()">
+          <datalist id="seferList"></datalist>
+          <button class="co-loc-btn" onclick="shareLocation()" title="Share my precise location">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Auto</span>
+          </button>
+        </div>
+        <div class="co-hint">Start typing or tap Auto to find yours.</div>
+      </div>
+      <div id="coLocationStatus" class="co-loc-status"></div>
+      <div id="coDeliveryTimeBox" class="co-delivery-time-box" style="display:none">
+        <div class="dt-ico">🚚</div>
+        <div class="dt-info">
+          <div class="dt-label">Estimated Delivery Time</div>
+          <div class="dt-value" id="coDeliveryTimeVal">--</div>
+        </div>
+      </div>
+      <div class="co-field">
+        <label class="co-label">Payment Method</label>
+        <div class="co-pay-options">
+          <label class="co-pay-opt" id="payOptTelebirr">
+            <input type="radio" name="payMethod" value="Telebirr" onchange="selectPayment('Telebirr')">
+            <div class="co-pay-card">
+              <div class="co-pay-ico">📱</div>
+              <div class="co-pay-info">
+                <div class="co-pay-name">Telebirr</div>
+              </div>
+              <div class="co-pay-check">✓</div>
+            </div>
+          </label>
+          <label class="co-pay-opt" id="payOptCBE">
+            <input type="radio" name="payMethod" value="CBE" onchange="selectPayment('CBE')">
+            <div class="co-pay-card">
+              <div class="co-pay-ico">🏦</div>
+              <div class="co-pay-info">
+                <div class="co-pay-name">CBE</div>
+              </div>
+              <div class="co-pay-check">✓</div>
+            </div>
+          </label>
+          <label class="co-pay-opt" id="payOptCash">
+            <input type="radio" name="payMethod" value="Cash" onchange="selectPayment('Cash')">
+            <div class="co-pay-card">
+              <div class="co-pay-ico">💵</div>
+              <div class="co-pay-info">
+                <div class="co-pay-name">Cash</div>
+              </div>
+              <div class="co-pay-check">✓</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="co-account-info" id="coAccountInfo" style="display:none">
+        <div class="co-account-lbl">Send payment to:</div>
+        <div class="co-account-num" id="coAccountNum"></div>
+        <div class="co-account-name">Dagu Perfume</div>
+      </div>
+
+      <button class="co-next-btn" onclick="goToStep2()">Next →</button>
+      <div class="co-err" id="coErr1"></div>
+    </div>
+
+    <!-- Step 2: Transaction ID -->
+    <div class="co-step" id="coStep2" style="display:none">
+      <div class="co-step-label">Step 2 of 2 — Confirm Payment</div>
+      <div class="co-recap" id="coRecap"></div>
+      <div class="co-field" id="txIdField">
+        <label class="co-label">Transaction ID / Reference Number</label>
+        <input class="co-input" id="coTxId" type="text" placeholder="Paste your transaction ID here">
+        <div class="co-hint">After sending payment, paste the reference number you received</div>
+      </div>
+      <div class="co-field">
+        <label class="co-label">Delivery Notes / Specific Instructions</label>
+        <textarea class="co-input" id="coNotes" placeholder="e.g. Near Bole Medhanialem, available after 5 PM..."
+          style="height: 80px; resize: none;"></textarea>
+        <div class="co-hint">Let us know your exact relative location or preferred delivery time.</div>
+      </div>
+      <div class="co-field">
+        <label class="co-label">Payment Screenshot (Optional)</label>
+        <input class="co-input" id="coProof" type="file" accept="image/*" style="padding: 8px;">
+        <div class="co-hint">Verify your payment faster by attaching a screenshot</div>
+      </div>
+      <div class="co-btns-row">
+        <button class="co-back-btn" onclick="goToStep1()">← Back</button>
+        <button class="co-submit-btn" onclick="submitOrder()" id="coSubmitBtn">Place Order 🎉</button>
+      </div>
+      <div class="co-err" id="coErr2"></div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div id="successBackdrop"></div>
+  <div id="successModal">
+    <div class="succ-ico">🎉</div>
+    <div class="succ-title">Order Placed!</div>
+    <div class="succ-msg" id="succMsg"></div>
+    <div class="succ-ref" id="succRef"></div>
+    <div style="display:flex; gap:12px; margin-top:28px;">
+      <button id="saveReceiptBtn" class="succ-btn" onclick="takeSuccessScreenshot()" style="flex:1; background:rgba(200,160,80,.15); color:var(--gold); border:1px solid rgba(200,160,80,.3); padding:14px 10px; font-weight:600; box-shadow:none;">📸 Save Receipt</button>
+      <button class="succ-btn" onclick="closeSuccess()" style="flex:1; padding:14px 10px; font-weight:600;">Continue Shopping</button>
+    </div>
+  </div>
+
+  <!-- SUPABASE SDK & HTML2CANVAS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js?v=6"></script>
+  <script src="script.js?v=6"></script>
+  <button class="fab-filter" onclick="toggleOrClearFilter()" title="Advanced Filters">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <line x1="4" y1="21" x2="4" y2="14"></line>
+      <line x1="4" y1="10" x2="4" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12" y2="3"></line>
+      <line x1="20" y1="21" x2="20" y2="16"></line>
+      <line x1="20" y1="12" x2="20" y2="3"></line>
+      <line x1="1" y1="14" x2="7" y2="14"></line>
+      <line x1="9" y1="8" x2="15" y2="8"></line>
+      <line x1="17" y1="16" x2="23" y2="16"></line>
+    </svg>
+  </button>
+  <div id="supportMenu" class="fab-menu">
+    <a href="tel:0993337235" class="fab-menu-item">
+      <span class="fm-ico">📞</span>
+      <span class="fm-label">Call Now</span>
+    </a>
+    <a href="https://t.me/dagu_perfume" target="_blank" class="fab-menu-item">
+      <span class="fm-ico">✈️</span>
+      <span class="fm-label">Telegram</span>
+    </a>
+  </div>
+  <button class="fab-support" onclick="toggleSupportMenu()" title="Support Team">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </button>
+  <button class="fab-quiz" onclick="openQuiz()" title="Find Your Scent"><span>✨</span></button>
+  <button class="back-to-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+</body>
+
+</html>
