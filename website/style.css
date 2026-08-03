@@ -1168,6 +1168,7 @@ header {
     bottom: 0;
     transform: translate(-50%, 100%);
     max-height: 92vh;
+    inset: auto 0 0 50%;
   }
 
   #quizModal.open {
@@ -1175,15 +1176,63 @@ header {
   }
 
   .quiz-header {
-    padding: 24px 24px 16px;
+    padding: 20px 20px 12px;
+  }
+
+  .quiz-title {
+    font-size: 20px;
+  }
+
+  .quiz-close {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
   }
 
   .quiz-body {
-    padding: 16px 24px 32px;
+    padding: 12px 20px 24px;
+  }
+
+  .qs-question {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .qs-options {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .qs-opt span {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 16px 20px;
+    gap: 16px;
+  }
+
+  .qs-opt-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .qs-opt-label {
+    font-size: 15px;
+    text-align: left;
   }
 
   .quiz-footer {
-    padding: 20px 24px 24px;
+    padding: 16px 20px 20px;
+  }
+
+  .quiz-btns {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .quiz-back-btn,
+  .quiz-next-btn {
+    width: 100%;
+    padding: 14px 24px;
   }
 }
 
@@ -3455,6 +3504,7 @@ body::after {
     bottom: 0;
     transform: translate(-50%, 100%);
     max-height: 92vh;
+    inset: auto 0 0 50%;
   }
 
   #quizModal.open {
@@ -3462,19 +3512,76 @@ body::after {
   }
 
   .quiz-header {
-    padding: 20px 20px 12px;
+    padding: 18px 16px 10px;
+  }
+
+  .quiz-title {
+    font-size: 18px;
+  }
+
+  .quiz-close {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
   }
 
   .quiz-body {
-    padding: 12px 20px 24px;
+    padding: 10px 16px 20px;
+  }
+
+  .qs-question {
+    font-size: 16px;
+    margin-bottom: 16px;
   }
 
   .quiz-footer {
-    padding: 14px 20px 18px;
+    padding: 12px 16px 16px;
   }
 
   .qs-options {
     grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .qs-opt span {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 14px 16px;
+    gap: 14px;
+  }
+
+  .qs-opt-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+
+  .qs-opt-label {
+    font-size: 14px;
+    text-align: left;
+  }
+
+  .quiz-btns {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .quiz-back-btn,
+  .quiz-next-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  /* Fix cursor for touch devices */
+  .qs-opt,
+  .quiz-close,
+  .qr-card,
+  button,
+  a,
+  .sel-btn,
+  .pcard,
+  .fav-btn {
+    cursor: pointer !important;
   }
 
   #quizResultPanel {

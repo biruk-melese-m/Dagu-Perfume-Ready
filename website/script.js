@@ -427,15 +427,23 @@ function toggleWishlist(no, event) {
 
 // ── CATALOGUE FILTERS ─────────────────────────────────
 // Toggles gender category filters (Men/Women/Unisex) and re-renders the catalogue.
-// Multiple categories can be active at once; clicking again deactivates.
+// Only one category can be active at a time — clicking the same one deactivates it.
 function toggleCategory(cat, el) {
-  if (currentFilters.category.includes(cat)) {
-    currentFilters.category = currentFilters.category.filter(c => c !== cat);
-    el.classList.remove('active');
+  const isActive = currentFilters.category.includes(cat);
+  
+  // Remove 'active' class from all category buttons
+  document.querySelectorAll('#btn-kings, #btn-queens, #btn-unisex').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // If clicking the same active category, deactivate it; otherwise activate the new one
+  if (isActive) {
+    currentFilters.category = [];
   } else {
-    currentFilters.category.push(cat);
+    currentFilters.category = [cat];
     el.classList.add('active');
   }
+  
   Object.keys(sectionPage).forEach(k => delete sectionPage[k]);
   updateResetBtn();
   render();
@@ -2154,3 +2162,36 @@ function changePanelImg(delta, event) {
   const bottleEl = document.getElementById('dpBottle');
   bottleEl.style.backgroundImage = `url('${imgs[currentImgIndex]}')`;
 }
+
+
+// ── VIDEO BACKGROUND DEBUG & FALLBACK ──────────────────
+// Ensures the hero video loads properly with error handling
+window.addEventListener('DOMContentLoaded', function() {
+  const video = document.querySelector('.hero-video-bg');
+  if (video) {
+    console.log('Video element found:', video);
+    console.log('Video src:', video.querySelector('source')?.src);
+    
+    video.addEventListener('loadeddata', function() {
+      console.log('Video loaded successfully');
+    });
+    
+    video.addEventListener('error', function(e) {
+      console.error('Video failed to load:', e);
+      console.error('Video error code:', video.error?.code, video.error?.message);
+    });
+    
+    video.addEventListener('canplay', function() {
+      console.log('Video can play');
+    });
+    
+    // Force video play attempt
+    video.play().then(() => {
+      console.log('Video playing');
+    }).catch(err => {
+      console.error('Video play failed:', err);
+    });
+  } else {
+    console.error('Video element not found');
+  }
+});
