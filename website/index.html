@@ -19,6 +19,105 @@
     rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=4">
   <style>
+    /* Hero Video Background */
+    #hero {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8, 3, 5, 0.55) 0%,
+        rgba(8, 3, 5, 0.35) 50%,
+        rgba(8, 3, 5, 0.65) 100%
+      );
+      z-index: 1;
+    }
+
+    #hero .hero-content-center,
+    #hero .hero-scroll {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Hero CTA Group & Dynamic Island Pills */
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 120px;
+      flex-wrap: wrap;
+      z-index: 5;
+      width: 100%;
+    }
+
+    .hero-island-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      background: rgba(14, 6, 8, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 9999px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-family: var(--sans, 'Outfit', sans-serif);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-island-btn:hover {
+      background: rgba(110, 19, 36, 0.45);
+      border-color: rgba(200, 160, 80, 0.7);
+      transform: scale(1.06) translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), 0 0 20px rgba(200, 160, 80, 0.3);
+      color: var(--gold, #C8A050);
+    }
+
+    .island-ico {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .island-val {
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .hero-cta-group {
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 44px;
+        padding: 0 20px;
+      }
+      .hero-island-btn {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+      }
+    }
+
     /* Force fast cursor tracking */
     #cur,
     #cur2 {
@@ -60,6 +159,57 @@
 
     #btn-other .sel-emoji {
       filter: drop-shadow(0 0 8px rgba(60, 140, 160, 0.4));
+    }
+
+    /* ── Detail panel: 2-col brand/price grid + centered badges ── */
+    .dp-brand-price-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .dp-bp-left {
+      min-width: 0;
+    }
+
+    .dp-bp-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px 14px;
+      margin-right: 8px;
+      background: rgba(200, 160, 80, 0.08);
+      border: 1px solid rgba(200, 160, 80, 0.3);
+      border-radius: 12px;
+      flex-shrink: 0;
+      min-width: 80px;
+    }
+
+    .dp-price-label-top {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(245, 237, 224, 0.45);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .dp-price-val {
+      font-weight: 700;
+      color: var(--gold, #C8A050);
+      white-space: nowrap;
+    }
+
+    /* Badges centered on their own line */
+    .dp-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 6px;
     }
   </style>
 </head>
@@ -126,44 +276,33 @@
 
   <!-- HERO 1: THE SLOGAN (Upper Section) -->
   <section id="hero" class="hero-minimal">
+    <!-- Video Background -->
+    <video class="hero-video-bg" autoplay muted loop playsinline preload="auto">
+      <source src="Background.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-overlay"></div>
     <div class="hero-content-center">
       <p class="hero-eyebrow">Smell Good...</p>
       <h1 class="hero-h1">Dagu Perfume</h1>
       <p class="hero-sub italic">Luxury Scents — Honest Prices</p>
-    </div>
-    <div class="hero-scroll" onclick="scrollToDiscovery()"><span>Scroll to Discover</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
 
-  <!-- HERO 2: THE REVEAL (Interactive Bottle + Stats) -->
-  <section id="hero-reveal" class="reveal section-reveal">
-    <div class="hero-canvas-wrap">
-      <canvas id="heroCanvas"></canvas>
-    </div>
-    <div class="reveal-container">
-      <div class="bottle-reveal-anchor">
-        <!-- Interactive Canvas will draw here via script positioning -->
+      <div class="hero-cta-group">
+        <!-- 1. Direct Phone Number (Dynamic Island Pill) -->
+        <a class="hero-island-btn" href="tel:0993337235" title="Call 0993 33 7235">
+          <span class="island-ico">📞</span>
+          <span class="island-val">0993 33 7235</span>
+        </a>
+
+        <!-- 2. Location (Dynamic Island Pill) -->
+        <a class="hero-island-btn" href="https://www.google.com/maps/dir/?api=1&destination=Bora+Kids+Mall+Bole+Addis+Ababa" target="_blank" title="View Location on Google Maps">
+          <span class="island-ico">📍</span>
+          <span class="island-val">Bole Bora Kids Mall, Addis Ababa</span>
+        </a>
       </div>
     </div>
 
-    <div class="hero-stats-bar">
-      <div class="hsb-inner">
-        <div class="hsb-item">
-          <div class="hsb-n">502</div>
-          <div class="hsb-l">FRAGRANCES</div>
-        </div>
-        <div class="hsb-item">
-          <div class="hsb-n">15+</div>
-          <div class="hsb-l">BRANDS</div>
-        </div>
-        <div class="hsb-item">
-          <div class="hsb-n">100%</div>
-          <div class="hsb-l">AUTHENTIC</div>
-        </div>
-      </div>
-    </div>
   </section>
+
 
   <!-- CATEGORY SELECTOR (Visual Filters) -->
   <div id="categorySelectors">
@@ -195,6 +334,10 @@
       <div class="sel-btn" onclick="toggleScent('other', this)" id="btn-other">
         <div class="sel-emoji">🧴</div>
         <div class="sel-label">Essentials</div>
+      </div>
+      <div class="sel-btn" onclick="openQuiz()" id="btn-quiz-tab" style="border-color: rgba(200, 160, 80, 0.4); background: rgba(110, 19, 36, 0.25);">
+        <div class="sel-emoji">✨</div>
+        <div class="sel-label">Scent Quiz</div>
       </div>
     </div>
     <button id="secResetBtn" onclick="resetCategories()"><span>↺</span> Back to Complete Collection</button>
@@ -233,10 +376,12 @@
       </div>
       <div class="fp-group">
         <div class="fp-options">
-          <label class="fp-opt"><input type="checkbox" data-group="price" value="above10k"
-              onchange="syncFilters()"><span>Above 10k Br</span></label>
-          <label class="fp-opt"><input type="checkbox" data-group="price" value="around5k"
-              onchange="syncFilters()"><span>Around 5k Br</span></label>
+          <label class="fp-opt"><input type="checkbox" data-group="price" value="under10k"
+              onchange="syncFilters()"><span>&lt; 10,000 Br</span></label>
+          <label class="fp-opt"><input type="checkbox" data-group="price" value="10k_20k"
+              onchange="syncFilters()"><span>10,000 – 20,000 Br</span></label>
+          <label class="fp-opt"><input type="checkbox" data-group="price" value="above20k"
+              onchange="syncFilters()"><span>&gt; 20,000 Br</span></label>
         </div>
       </div>
     </div>
@@ -277,14 +422,20 @@
         <!-- Right: Structured Product Details -->
         <div class="dp-grid-right">
           <div class="dp-no" id="dpNo">—</div>
-          <div class="dp-brand" id="dpBrand">—</div>
-          <div class="dp-name" id="dpName">—</div>
-          <div class="dp-badges" id="dpBadges"></div>
-          
-          <div class="dp-price-box">
-            <div class="dp-price-label">Price</div>
-            <div id="dpPrice" class="dp-price-val">—</div>
+
+          <!-- 2-column grid: Brand+Name | PRICE label+value -->
+          <div class="dp-brand-price-grid">
+            <div class="dp-bp-left">
+              <div class="dp-brand" id="dpBrand">—</div>
+              <div class="dp-name" id="dpName">—</div>
+            </div>
+            <div class="dp-bp-right">
+              <div class="dp-price-label-top">PRICE</div>
+              <div id="dpPrice" class="dp-price-val">—</div>
+            </div>
           </div>
+
+          <div class="dp-badges" id="dpBadges"></div>
 
           <div class="dp-divider"></div>
           <div class="dp-label">Scent Profile</div>
