@@ -2154,3 +2154,36 @@ function changePanelImg(delta, event) {
   const bottleEl = document.getElementById('dpBottle');
   bottleEl.style.backgroundImage = `url('${imgs[currentImgIndex]}')`;
 }
+
+
+// ── VIDEO BACKGROUND DEBUG & FALLBACK ──────────────────
+// Ensures the hero video loads properly with error handling
+window.addEventListener('DOMContentLoaded', function() {
+  const video = document.querySelector('.hero-video-bg');
+  if (video) {
+    console.log('Video element found:', video);
+    console.log('Video src:', video.querySelector('source')?.src);
+    
+    video.addEventListener('loadeddata', function() {
+      console.log('Video loaded successfully');
+    });
+    
+    video.addEventListener('error', function(e) {
+      console.error('Video failed to load:', e);
+      console.error('Video error code:', video.error?.code, video.error?.message);
+    });
+    
+    video.addEventListener('canplay', function() {
+      console.log('Video can play');
+    });
+    
+    // Force video play attempt
+    video.play().then(() => {
+      console.log('Video playing');
+    }).catch(err => {
+      console.error('Video play failed:', err);
+    });
+  } else {
+    console.error('Video element not found');
+  }
+});
