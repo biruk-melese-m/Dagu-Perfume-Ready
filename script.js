@@ -436,6 +436,7 @@ function toggleCategory(cat, el) {
     currentFilters.category.push(cat);
     el.classList.add('active');
   }
+  Object.keys(sectionPage).forEach(k => delete sectionPage[k]);
   updateResetBtn();
   render();
 }
@@ -464,6 +465,7 @@ function toggleScent(scnt, el) {
 function resetCategories() {
   currentFilters = { category: [], type: [], scent: [], price: [] };
   document.querySelectorAll('.sel-btn').forEach(btn => btn.classList.remove('active'));
+  Object.keys(sectionPage).forEach(k => delete sectionPage[k]);
   updateResetBtn();
   render();
 }
@@ -490,6 +492,19 @@ function shuffleSection(secId) {
 // ── MAIN CATALOGUE RENDER ───────────────────────────────
 // The core render loop. Iterates every section, applies all active filters,
 // and injects the built HTML cards into the page. Called after every state change.
+// Tracks how many items are shown per section (pagination: 20 per page)
+const PAGE_SIZE = 20;
+const sectionPage = {}; // secId → number of items currently shown
+
+function loadMoreSection(secId) {
+  sectionPage[secId] = (sectionPage[secId] || PAGE_SIZE) + PAGE_SIZE;
+  render();
+  // Scroll back to the section header so user sees the new items
+  const el = document.getElementById(secId);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
 function render() {
   const c = document.getElementById('content');
   c.innerHTML = '';
@@ -626,6 +641,16 @@ function render() {
       delete SECTION_SHUFFLES[sec.id];
     }
 
+    const visibleItems = items.slice(0, sectionPage[sec.id] || PAGE_SIZE);
+    const remaining = items.length - visibleItems.length;
+    const seeMoreBtn = remaining > 0
+      ? `<div class="see-more-wrap">
+           <button class="see-more-btn" onclick="loadMoreSection('${sec.id}')">
+             ✦ See ${Math.min(remaining, PAGE_SIZE)} More &nbsp;<span class="see-more-count">(${remaining} left)</span>
+           </button>
+         </div>`
+      : '';
+
     const el = document.createElement('div');
     el.className = 'cat-sec';
     el.id = sec.id;
@@ -644,9 +669,11 @@ function render() {
           <div class="sh-count-l">Fragrances</div>
         </div>
       </div>
-      <div class="p-grid">${items.map((p, i) => buildCard(p, i * 20, sec.id)).join('')}</div>`;
+      <div class="p-grid">${visibleItems.map((p, i) => buildCard(p, i * 20, sec.id)).join('')}</div>
+      ${seeMoreBtn}`;
     c.appendChild(el);
   });
+
 
   updateSidebarCounts();
 
@@ -881,8 +908,9 @@ function getFilteredItems() {
       const n = parseFloat(p.price.replace(/[^0-9]/g, ''));
       if (isNaN(n)) return false;
       return price.some(pr => {
-        if (pr === 'around5k') return n < 10000;
-        if (pr === 'above10k') return n >= 10000;
+        if (pr === 'under10k' || pr === 'around5k') return n < 10000;
+        if (pr === '10k_20k') return n >= 10000 && n <= 20000;
+        if (pr === 'above20k' || pr === 'above10k') return n > 20000;
         return false;
       });
     });
@@ -999,8 +1027,8 @@ function setFilter(f, btn) {
 }
 
 // ── SCENT QUIZ ──────────────────────────────────────
-// Multi-step quiz that scores answers across gender, scent, type, and occasion.
-// Results are shown in a swipeable slider panel with personalised recommendations.
+// Multi-step quiz that scores answers across gender, scent, type, and price range.
+// Results are shown in a full page tab view with personalised recommendations.
 const QUIZ_DATA = [
   {
     q: "Who are we finding a scent for?",
@@ -1028,12 +1056,11 @@ const QUIZ_DATA = [
     ]
   },
   {
-    q: "Preferred intensity level?",
+    q: "What is your target price range?",
     options: [
-      { label: "Light & Airy", emoji: "🌬️", score: { price: ['budget'] } },
-      { label: "Powerful Beast Mode", emoji: "🔥", score: { type: ['designer'] } },
-      { label: "Middle Eastern Richness", emoji: "🕌", score: { scent: ['oud'] } },
-      { label: "Balanced & Smooth", emoji: "⚖️", score: {} }
+      { label: "< 10,000 Br", emoji: "💵", score: { price: ['under10k'] } },
+      { label: "10,000 – 20,000 Br", emoji: "💎", score: { price: ['10k_20k'] } },
+      { label: "> 20,000 Br", emoji: "👑", score: { price: ['above20k'] } }
     ]
   }
 ];
@@ -1067,7 +1094,7 @@ function renderQuizStep() {
   document.getElementById('quizProgress').style.width = progress + '%';
   document.getElementById('quizBackBtn').style.display = quizStep > 0 ? 'block' : 'none';
   document.getElementById('quizNextBtn').textContent = quizStep === QUIZ_DATA.length - 1 ? 'See Results' : 'Next Question';
-  document.getElementById('quizNextBtn').disabled = !quizAnswers[quizStep];
+  document.getElementById('quizNextBtn').disabled = !quizAnswers[quizStep] && quizAnswers[quizStep] !== 0;
 
   body.innerHTML = `
     <div class="quiz-step">
@@ -1110,12 +1137,11 @@ function prevQuizStep() {
 
 function showQuizResults() {
   document.getElementById('quizProgress').style.width = '100%';
-  const body = document.getElementById('quizBody');
-  const footer = document.getElementById('quizFooter');
 
   // Scoring
   const finalScore = { category: [], type: [], scent: [], price: [] };
   quizAnswers.forEach((ansIdx, stepIdx) => {
+    if (ansIdx === undefined || ansIdx === null) return;
     const scores = QUIZ_DATA[stepIdx].options[ansIdx].score;
     for (let key in scores) {
       finalScore[key] = [...new Set([...finalScore[key], ...scores[key]])];
@@ -1131,12 +1157,35 @@ function showQuizResults() {
     if (finalScore.scent.length && finalScore.scent.some(s => p.tags.includes(s))) matchCount++;
     if (finalScore.type.length && finalScore.type.includes('designer') && p.orig) matchCount++;
     if (finalScore.type.length && finalScore.type.includes('clone') && !p.orig) matchCount++;
+
+    if (finalScore.price.length) {
+      const n = parseFloat(p.price.replace(/[^0-9]/g, ''));
+      if (!isNaN(n)) {
+        if (finalScore.price.includes('under10k') && n < 10000) matchCount++;
+        if (finalScore.price.includes('10k_20k') && n >= 10000 && n <= 20000) matchCount++;
+        if (finalScore.price.includes('above20k') && n > 20000) matchCount++;
+      }
+    }
     return matchCount > 0;
   });
 
-  // Sort by match quality (simple heuristic)
+  // Sort by match quality (price & scent weighting)
   matches.sort((a, b) => {
     let sa = 0, sb = 0;
+    const na = parseFloat(a.price.replace(/[^0-9]/g, ''));
+    const nb = parseFloat(b.price.replace(/[^0-9]/g, ''));
+
+    if (!isNaN(na)) {
+      if (finalScore.price.includes('under10k') && na < 10000) sa += 3;
+      if (finalScore.price.includes('10k_20k') && na >= 10000 && na <= 20000) sa += 3;
+      if (finalScore.price.includes('above20k') && na > 20000) sa += 3;
+    }
+    if (!isNaN(nb)) {
+      if (finalScore.price.includes('under10k') && nb < 10000) sb += 3;
+      if (finalScore.price.includes('10k_20k') && nb >= 10000 && nb <= 20000) sb += 3;
+      if (finalScore.price.includes('above20k') && nb > 20000) sb += 3;
+    }
+
     if (finalScore.scent.some(s => a.tags.includes(s))) sa++;
     if (finalScore.scent.some(s => b.tags.includes(s))) sb++;
     return sb - sa;
@@ -1146,7 +1195,6 @@ function showQuizResults() {
   if (matches.length < 15) {
     const matchedIds = matches.map(m => m.no);
     const others = ALL.filter(p => !matchedIds.includes(p.no));
-    // Sort others by gender match
     const g = finalScore.category[0] === 'men' ? 'm' : (finalScore.category[0] === 'women' ? 'w' : 'u');
     others.sort((a, b) => (a.g === g ? -1 : 1));
     matches = [...matches, ...others.slice(0, 15 - matches.length)];
@@ -1182,11 +1230,18 @@ function renderQuizSlider() {
 
   slider.innerHTML = quizSliderItems.map(p => `
     <div class="qrp-slide">
-      <div class="qrp-img">${p.image ? `<img src="${p.image}" alt="${p.name}">` : getBottleEmoji(p)}</div>
-      <div class="qrp-brand">${p.brand}</div>
-      <div class="qrp-name">${p.name}</div>
-      <div class="qrp-desc">${p.vibe}</div>
-      <div class="qrp-price">${p.price} Br</div>
+      <div class="qrp-slide-inner">
+        <div class="qrp-img-wrap">
+          <div class="qrp-img">${p.image ? `<img src="${p.image}" alt="${p.name}">` : getBottleEmoji(p)}</div>
+        </div>
+        <div class="qrp-details">
+          <div class="qrp-no">#${p.no}</div>
+          <div class="qrp-brand">${p.brand}</div>
+          <div class="qrp-name">${p.name}</div>
+          <div class="qrp-desc">${p.vibe}</div>
+          <div class="qrp-price">${p.price} Br</div>
+        </div>
+      </div>
     </div>
   `).join('');
 
