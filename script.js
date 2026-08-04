@@ -255,20 +255,14 @@ const SEC_COLORS = {
 };
 
 const SECTIONS = [
-  { id: 'sec-unisex', emoji: '⚖️', tag: 'Iconic Unisex', title: 'Iconic Unisex', sub: 'Timeless signatures that transcend gender — worn by everyone, remembered by all.' },
   { id: 'sec-kings', emoji: '👑', tag: "Men's Collection", title: 'For Kings', sub: 'Bold, commanding and unforgettable — the finest men\'s fragrances from beast-mode Lattafas to iconic designer originals.' },
   { id: 'sec-queens', emoji: '🌹', tag: "Women's Collection", title: 'For Queens', sub: 'From dreamy florals to addictive gourmands — every statement of elegance and confidence.' },
-  { id: 'sec-oud', emoji: '🕌', tag: 'Oud & Arabian', title: 'Oud & Arabian Treasures', sub: 'Deep resins, smoky amber, and centuries of Middle Eastern perfumery tradition.' },
-  { id: 'sec-doj', emoji: '💎', tag: 'Exclusive Collection', title: 'Doj Exclusives', sub: 'The crown jewels—high-concentration extracts and rare formulations by Doj.' },
-  { id: 'sec-shaik', emoji: '🌪️', tag: 'Viral Variant Collection', title: 'Shaik Master Variants', sub: 'Expertly crafted variants that capture the soul of the world\'s most famous fragrances in one unified go.' },
-  { id: 'sec-fresh', emoji: '🌊', tag: 'Fresh & Aquatic', title: 'Fresh & Aquatic', sub: 'Clean, crisp, and alive — perfect for daily wear, warm days, and effortless confidence.' },
+  { id: 'sec-unisex', emoji: '⚖️', tag: 'Iconic Unisex', title: 'Iconic Unisex', sub: 'Timeless signatures that transcend gender — worn by everyone, remembered by all.' },
   { id: 'sec-latest', emoji: '🔥', tag: 'Latest & Popular', title: 'The Latest Arrivals', sub: 'The newest releases and viral world-famous scents trending globe-wide right now.' },
   { id: 'sec-favorites', emoji: '💎', tag: 'Top Sellers', title: "Most People's Favorites", sub: 'The absolute crowd-favorites. Modern classics that every fragrance lover must own.' },
-  { id: 'sec-sweet', emoji: '🍯', tag: 'Sweet & Gourmand', title: 'Sweet & Gourmand', sub: 'Vanilla, caramel, cocoa and sugar rush — the most addictive and crowd-pleasing profiles.' },
-  { id: 'sec-designer', emoji: '💎', tag: 'Designer Originals & Testers', title: 'Designer Originals', sub: 'Authentic originals and testers from Chanel, Dior, Tom Ford, YSL and more — the real deal.' },
-  { id: 'sec-sets', emoji: '🎁', tag: 'Sets, Splashes & More', title: 'Sets, Splashes & Extras', sub: 'Gift sets, body splashes, mini vials, kids perfumes and budget daily-wear picks.' },
-  { id: 'sec-other', emoji: '🧴', tag: 'Other Essentials', title: 'Other Essentials', sub: 'High-quality shampoos, soaps, lotions and more for your daily care.' },
-  { id: 'sec-misc', emoji: '✨', tag: 'All Fragrances', title: 'More Fragrances', sub: 'Every scent in our collection — explore the full range.' },
+  { id: 'sec-doj', emoji: '💎', tag: 'Exclusive Collection', title: 'Doj Exclusives', sub: 'The crown jewels—high-concentration extracts and rare formulations by Doj.' },
+  { id: 'sec-shaik', emoji: '🌪️', tag: 'Viral Variant Collection', title: 'Shaik Master Variants', sub: 'Expertly crafted variants that capture the soul of the world\'s most famous fragrances in one unified go.' },
+  { id: 'sec-other', emoji: '🧴', tag: 'Other Essentials', title: 'Other Essentials', sub: 'High-quality shampoos, soaps, lotions and more for your daily care.' }
 ];
 
 // ── POPULARITY SORTING ─────────────────────────────────
@@ -450,20 +444,33 @@ function toggleCategory(cat, el) {
 }
 
 // Toggles scent/collection filter buttons (Oud, Fresh, Latest, Exclusives, etc).
-// The special 'exclusive' key activates both Doj and Shaik collections together.
+// Only one scent filter can be active at a time — clicking the same one deactivates it.
 function toggleScent(scnt, el) {
+  const isActive = currentFilters.scent.includes(scnt);
+  
+  // Remove 'active' class from all scent buttons
+  document.querySelectorAll('#btn-latest, #btn-favorites, #btn-exclusive, #btn-other').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Handle exclusive case (activates both Doj and Shaik)
   if (scnt === 'exclusive') {
-    const isAct = currentFilters.scent.includes('shaik') || currentFilters.scent.includes('doj');
-    if (isAct) {
-      currentFilters.scent = currentFilters.scent.filter(s => s !== 'shaik' && s !== 'doj');
+    if (isActive) {
+      currentFilters.scent = [];
     } else {
-      currentFilters.scent.push('shaik', 'doj');
+      currentFilters.scent = ['shaik', 'doj'];
+      el.classList.add('active');
     }
-  } else if (currentFilters.scent.includes(scnt)) {
-    currentFilters.scent = currentFilters.scent.filter(s => s !== scnt);
   } else {
-    currentFilters.scent.push(scnt);
+    // If clicking the same active scent, deactivate it; otherwise activate the new one
+    if (isActive) {
+      currentFilters.scent = [];
+    } else {
+      currentFilters.scent = [scnt];
+      el.classList.add('active');
+    }
   }
+  
   updateFilterUIState();
   updateResetBtn();
   render();
@@ -506,10 +513,14 @@ const sectionPage = {}; // secId → number of items currently shown
 
 function loadMoreSection(secId) {
   sectionPage[secId] = (sectionPage[secId] || PAGE_SIZE) + PAGE_SIZE;
+  
+  // Save current scroll position before re-rendering
+  const scrollY = window.scrollY;
+  
   render();
-  // Scroll back to the section header so user sees the new items
-  const el = document.getElementById(secId);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  
+  // Restore scroll position after rendering
+  window.scrollTo(0, scrollY);
 }
 
 
@@ -754,15 +765,15 @@ function openPanel(no) {
   if (showImage) {
     if (bgEl) bgEl.style.backgroundImage = `url('${p.image}')`;
     if (bottleEl) {
-      bottleEl.style.backgroundImage = `url('${p.image}')`;
+      // Use actual img tag instead of background
+      bottleEl.innerHTML = `<img src="${p.image}" alt="${dName}" class="dp-bottle-frame" onerror="this.style.display='none'">`;
       bottleEl.style.display = 'block';
-      bottleEl.textContent = '';
-      bottleEl.className = 'dp-bottle-frame';
     }
   } else {
     if (bgEl) bgEl.style.backgroundImage = 'none';
     if (bottleEl) {
       bottleEl.style.backgroundImage = 'none';
+      bottleEl.innerHTML = '';
       bottleEl.style.display = 'flex';
       bottleEl.style.alignItems = 'center';
       bottleEl.style.justifyContent = 'center';
@@ -2160,7 +2171,12 @@ function changePanelImg(delta, event) {
 
   currentImgIndex = (currentImgIndex + delta + imgs.length) % imgs.length;
   const bottleEl = document.getElementById('dpBottle');
-  bottleEl.style.backgroundImage = `url('${imgs[currentImgIndex]}')`;
+  
+  // Update img src instead of background image
+  const imgEl = bottleEl.querySelector('img');
+  if (imgEl) {
+    imgEl.src = imgs[currentImgIndex];
+  }
 }
 
 
