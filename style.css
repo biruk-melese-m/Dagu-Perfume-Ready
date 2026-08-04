@@ -2432,8 +2432,6 @@ header {
 }
 
 .dp-image-container {
-  aspect-ratio: 2/3;
-  max-height: 380px;
   width: 100%;
   border-radius: 20px;
   overflow: hidden;
@@ -2447,10 +2445,9 @@ header {
 
 .dp-bottle-frame {
   width: 100%;
-  height: 100%;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-position: center top !important;
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .dp-hero-emoji-static {
